@@ -28,7 +28,18 @@ int find(UnionFind* U, int x) {
     return x; 
 } 
     
-int union(UnionFind* U, int x, int y); 
+int union(UnionFind* U, int x, int y) {
+    if ((x < 0) || (y < 0) || (x >= U->size) || (y >= U->size)) { return FALSE; }
+    if (find(x) == find(y)) { return TRUE }; 
+    px = find(x); 
+    py = find(y); 
+    for (int i = 0; i < U->size; i++) {
+        if (find(i) == px) {
+            U->id[i] = py; 
+        }
+    }
+    return TRUE; 
+}
 
 void freeUnionFind(UnionFind* U) {
     free(U->id); 
