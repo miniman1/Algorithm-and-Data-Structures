@@ -9,6 +9,7 @@ typedef Struct UnionFind {
 
 
 UnionFind *newUnionFind(int size) {
+    if (size <= 0) { return NULL; }
     UnionFind *U = malloc(sizeof(UnionFind));
     U->size = size; 
     U->id = malloc(sizeof(int) * size); 
@@ -19,7 +20,13 @@ UnionFind *newUnionFind(int size) {
     return size; 
 }
 
-int find(UnionFind* U, int x); 
+int find(UnionFind* U, int x) {
+    if ((x < 0) or (x >= U->size)) { return -1; }
+    while (U->id[x] != x) {
+        x = U->id[x]; 
+    }
+    return x; 
+} 
     
 int union(UnionFind* U, int x, int y); 
 
