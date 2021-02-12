@@ -19,8 +19,11 @@ UnionFind *newUnionFind(int size) {
     return size; 
 }
 
-int find(UnionFind* U, int x);
+int find(UnionFind* U, int x); 
     
 int union(UnionFind* U, int x, int y); 
 
-void freeUnionFind(UnionFind* U); 
+void freeUnionFind(UnionFind* U) {
+    free(U->id); 
+    free(U); 
+} 
