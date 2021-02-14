@@ -11,7 +11,6 @@ typedef struct UnionFindRep {
 
 
 UnionFind newUnionFind(int size) {
-    if (size <= 0) { return NULL; }
     UnionFind U = malloc(sizeof(UnionFind));
     U->size = size; 
     U->id = malloc(sizeof(int) * size); 
@@ -23,16 +22,13 @@ UnionFind newUnionFind(int size) {
 }
 
 int find(UnionFind U, int x) {
-    if ((U == NULL) || (x < 0) || (x >= U->size)) { return -1; }
     while (U->id[x] != x) {
         x = U->id[x]; 
     }
     return x; 
 } 
     
-bool Union(UnionFind U, int x, int y) {
-    if ((x < 0) || (y < 0) || (x >= U->size) || (y >= U->size) || (x == y)) { return false; }
-    if (find(U, x) == find(U, y)) { return true; } 
+void Union(UnionFind U, int x, int y) {
     int px = find(U, x); 
     int py = find(U, y); 
     for (int i = 0; i < U->size; i++) {
@@ -40,7 +36,6 @@ bool Union(UnionFind U, int x, int y) {
             U->id[i] = py; 
         }
     }
-    return true; 
 }
 
 void freeUnionFind(UnionFind U) {

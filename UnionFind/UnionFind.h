@@ -14,7 +14,7 @@ int find(UnionFind U, int x);
     
 // given two sets, merge the sets together, return true if successful
 // if x or y is invalid, return false
-bool Union(UnionFind U, int x, int y); 
+void Union(UnionFind U, int x, int y); 
 
 void freeUnionFind(UnionFind U); 
 
