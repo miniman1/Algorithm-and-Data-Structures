@@ -3,7 +3,8 @@
 #include "UnionFind.h"
 
 typedef struct UnionFindRep {
-    int size; 
+    // tracks the size of each set
+    int *size; 
     // tracks the parent of each value
     int *id; 
 } UnionFindRep; 
@@ -12,17 +13,19 @@ typedef struct UnionFindRep {
 
 UnionFind newUnionFind(int size) {
     UnionFind U = malloc(sizeof(UnionFind));
-    U->size = size; 
+    U->size = malloc(sizeof(int) * size); 
     U->id = malloc(sizeof(int) * size); 
     // initially, the parent of each value is itself
     for (int i = 0; i < size; i++) {
         U->id[i] = i; 
+        U->size[i] = 1; 
     }
     return U; 
 }
 
 int find(UnionFind U, int x) {
     int curr = x; 
+    // finding the parent
     while (U->id[curr] != curr) {
         curr = U->id[curr]; 
     }
@@ -39,9 +42,17 @@ int find(UnionFind U, int x) {
 } 
     
 void Union(UnionFind U, int x, int y) {
+    // finding which set each node belongs to
     int px = find(U, x); 
     int py = find(U, y); 
-    U->id[px] = py; 
+    // combining the smaller set into the larger one
+    if (U->size[px] < U->size[py]) {
+        U->id[px] = py; 
+        U->size[py] += U->size[px];
+    } else {
+        U->id[py] = px; 
+        U->size[px] += U->size[py];
+    }
 }
 
 void freeUnionFind(UnionFind U) {
