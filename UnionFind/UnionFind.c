@@ -22,20 +22,26 @@ UnionFind newUnionFind(int size) {
 }
 
 int find(UnionFind U, int x) {
-    while (U->id[x] != x) {
-        x = U->id[x]; 
+    int curr = x; 
+    while (U->id[curr] != curr) {
+        curr = U->id[curr]; 
     }
-    return x; 
+
+    int parent = curr; 
+    curr = x; 
+
+    // path compression
+    while (U->id[curr] != curr) {
+        U->id[curr] = parent; 
+        curr = U->id[curr]; 
+    }
+    return parent; 
 } 
     
 void Union(UnionFind U, int x, int y) {
     int px = find(U, x); 
     int py = find(U, y); 
-    for (int i = 0; i < U->size; i++) {
-        if (find(U, i) == px) {
-            U->id[i] = py; 
-        }
-    }
+    U->id[px] = py; 
 }
 
 void freeUnionFind(UnionFind U) {
